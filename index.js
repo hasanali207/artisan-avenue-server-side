@@ -41,11 +41,19 @@ async function run() {
         res.send(result)
     })
    
-
+    // details
     app.get('/items/:id', async(req, res)=>{
       const id = req.params.id
       const query = {_id : new ObjectId(id)}
       const result = await itemCollection.findOne(query)
+      res.send(result)
+    })
+ 
+
+    app.delete('/items/:id', async(req, res)=>{
+      const id = req.params.id
+      const query = {_id : new ObjectId(id)}
+      const result = await itemCollection.deleteOne(query)
       res.send(result)
     })
 
@@ -57,7 +65,40 @@ async function run() {
       res.send(result)
     })
 
+       // update
+       app.get('/items/update/:id', async(req, res)=>{
+        const id = req.params.id
+        const query = {_id : new ObjectId(id)}
+        const result = await itemCollection.findOne(query)
+        res.send(result)
+      })
+       app.put('/updateItem/:id', async(req, res)=>{
+        const id = req.params.id
+        const item = req.body
+        const query = {_id : new ObjectId(id)}
+       const data = {
+          $set:{
+            photo: item.photo,
+            user_name: item.user_name,
+            user_email: item.user_email,
+            stock_status: item.stock_status,
+            processing_time: item.processing_time,
+            customization: item.customization,
+            rating: item.rating,
+            price: item.price,
+            short_description: item.short_description,
+            subcategory_name: item.subcategory_name,
+            item_name: item.item_name,
+          } 
+        }
+        const result = await itemCollection.updateOne(query, data )
+        console.log(result);
+        res.send(result)
+        
+      })
 
+
+  
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
