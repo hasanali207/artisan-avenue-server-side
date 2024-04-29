@@ -28,6 +28,8 @@ async function run() {
 
     const database = client.db("craftItem");
     const itemCollection = database.collection("Items");
+    const homeCollection = database.collection("home_data");
+    
     
     app.post('/items', async(req, res) =>{
         const newItem = req.body
@@ -39,6 +41,11 @@ async function run() {
 
     app.get('/items', async(req, res)=>{
         const cursor = itemCollection.find()
+        const result = await cursor.toArray()
+        res.send(result)
+    })
+    app.get('/data/homedata', async(req, res)=>{
+        const cursor = homeCollection.find()
         const result = await cursor.toArray()
         res.send(result)
     })
@@ -64,6 +71,20 @@ async function run() {
       const email = req.params.email
       const query = {user_email : email}
       const result = await itemCollection.find(query).toArray()
+      res.send(result)
+    })
+    app.get('/data/homedata/:subcategory_name', async(req, res)=>{
+      const subcategory_name = req.params.subcategory_name
+      const query = {subcategory_name : subcategory_name}
+      const result = await homeCollection.find(query).toArray()
+      res.send(result)
+    })
+
+     // details
+     app.get('/data/sigledata/:id', async(req, res)=>{
+      const id = req.params.id
+      const query = {_id : new ObjectId(id)}
+      const result = await homeCollection.findOne(query)
       res.send(result)
     })
 
