@@ -88,13 +88,7 @@ async function run() {
       res.send(result)
     })
 
-       // update
-       app.get('/items/update/:id', async(req, res)=>{
-        const id = req.params.id
-        const query = {_id : new ObjectId(id)}
-        const result = await itemCollection.findOne(query)
-        res.send(result)
-      })
+      
        app.put('/updateItem/:id', async(req, res)=>{
         const id = req.params.id
         const item = req.body
