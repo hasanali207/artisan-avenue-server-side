@@ -29,8 +29,7 @@ async function run() {
     const database = client.db("craftItem");
     const itemCollection = database.collection("Items");
     const homeCollection = database.collection("home_data");
-    
-    
+        
     app.post('/items', async(req, res) =>{
         const newItem = req.body
         console.log(newItem)
